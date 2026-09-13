@@ -1,36 +1,52 @@
-const API_URL = "http://100.54.107.33:3000/api/todos";
-
 async function getTodos() {
 
-    const response = await fetch(API_URL);
+    try {
 
-    const todos = await response.json();
+        const response = await fetch(config.API_URL);
 
-    const list = document.getElementById("todoList");
+        if (!response.ok) {
+            throw new Error("Failed to fetch todos");
+        }
 
-    list.innerHTML = "";
+        const todos = await response.json();
 
-    todos.forEach(todo => {
+        const list = document.getElementById("todoList");
 
-        const li = document.createElement("li");
+        list.innerHTML = "";
 
-        li.innerHTML = `
-            <span>
-                ${todo.title}
-                ${todo.completed ? "completed" : ""}
-            </span>
+        todos.forEach(todo => {
 
-            <button onclick="updateTodo('${todo._id}', ${todo.completed})">
-                Complete
-            </button>
+            const li = document.createElement("li");
 
-            <button onclick="deleteTodo('${todo._id}')">
-                Delete
-            </button>
-        `;
+            li.innerHTML = `
+                <span class="${todo.completed ? "completed" : ""}">
+                    ${todo.title}
+                </span>
 
-        list.appendChild(li);
-    });
+                <div>
+
+                    <button
+                        onclick="updateTodo('${todo._id}', ${todo.completed})">
+                        ${todo.completed ? "Undo" : "Complete"}
+                    </button>
+
+                    <button
+                        onclick="deleteTodo('${todo._id}')">
+                        Delete
+                    </button>
+
+                </div>
+            `;
+
+            list.appendChild(li);
+
+        });
+
+    } catch (error) {
+
+        console.error("Error fetching todos:", error);
+
+    }
 }
 
 
@@ -38,58 +54,99 @@ async function addTodo() {
 
     const input = document.getElementById("todoInput");
 
-    const title = input.value;
+    const title = input.value.trim();
 
     if (!title) {
         return;
     }
 
-    await fetch(API_URL, {
+    try {
 
-        method: "POST",
+        const response = await fetch(config.API_URL, {
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+            method: "POST",
 
-        body: JSON.stringify({
-            title: title
-        })
-    });
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-    input.value = "";
+            body: JSON.stringify({
+                title: title
+            })
 
-    getTodos();
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to create todo");
+        }
+
+        input.value = "";
+
+        await getTodos();
+
+    } catch (error) {
+
+        console.error("Error adding todo:", error);
+
+    }
 }
 
 
 async function updateTodo(id, completed) {
 
-    await fetch(`${API_URL}/${id}`, {
+    try {
 
-        method: "PUT",
+        const response = await fetch(
+            `${config.API_URL}/${id}`,
+            {
+                method: "PUT",
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-        body: JSON.stringify({
-            completed: !completed
-        })
-    });
+                body: JSON.stringify({
+                    completed: !completed
+                })
+            }
+        );
 
-    getTodos();
+        if (!response.ok) {
+            throw new Error("Failed to update todo");
+        }
+
+        await getTodos();
+
+    } catch (error) {
+
+        console.error("Error updating todo:", error);
+
+    }
 }
 
 
 async function deleteTodo(id) {
 
-    await fetch(`${API_URL}/${id}`, {
+    try {
 
-        method: "DELETE"
-    });
+        const response = await fetch(
+            `${config.API_URL}/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
 
-    getTodos();
+        if (!response.ok) {
+            throw new Error("Failed to delete todo");
+        }
+
+        await getTodos();
+
+    } catch (error) {
+
+        console.error("Error deleting todo:", error);
+
+    }
 }
 
 
