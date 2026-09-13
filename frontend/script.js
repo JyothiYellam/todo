@@ -17,7 +17,7 @@ async function getTodos() {
         li.innerHTML = `
             <span>
                 ${todo.title}
-                ${todo.completed ? " ✅" : ""}
+                ${todo.completed ? "completed" : ""}
             </span>
 
             <button onclick="updateTodo('${todo._id}', ${todo.completed})">
