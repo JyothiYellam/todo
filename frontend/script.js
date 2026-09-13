@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/todos";
+const API_URL = "http://100.54.107.33:3000/api/todos";
 
 async function getTodos() {
 
