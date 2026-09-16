@@ -15,17 +15,15 @@ CHECK () {
     fi
 }
 
+cp mongo.repo /etc/yum.repos.d/mongo.repo
+VALIDATE $? "Copying Mongo Repo"
+
 mongod --version
-CHECK $? "checking installation"
-
-cat <<EOF > /etc/yum.repos.d/mongodb-org-7.0.repo
-[mongodb-org-7.0]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/7.0/x86_64/
-enabled=1
-gpgcheck=0
-EOF
-CHECK $? "Adding MongoDB repository"
-
-dnf install mongodb-org -y
-CHECK $? "installing mongodb" 
+if [ $? -eq 0 ]; then
+   echo "Mongodb already installed ... skipping"
+else
+    echo "Installing now"
+    dnf install mongodb-org -y
+    CHECK $? "installing mongodb" 
+fi 
+    
