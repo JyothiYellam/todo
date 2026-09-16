@@ -18,5 +18,3 @@ CHECK () {
 mongod --version
 CHECK $? "checking installation"
 
-Install mongodb
-CHECK $? "mongodb Installation"
