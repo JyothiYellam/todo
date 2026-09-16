@@ -18,3 +18,5 @@ CHECK () {
 mongod --version
 CHECK $? "checking installation"
 
+dnf install mongodb-org -y
+CHECK $? "installing mongodb"
