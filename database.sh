@@ -12,6 +12,7 @@ CHECK () {
        echo "$2 ... success "
     else 
      echo "$2 ... failure"
+     exit 1
     fi
 }
 
