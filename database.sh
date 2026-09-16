@@ -16,7 +16,7 @@ CHECK () {
 }
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo
-VALIDATE $? "Copying Mongo Repo"
+CHECK $? "Copying Mongo Repo"
 
 mongod --version
 if [ $? -eq 0 ]; then
