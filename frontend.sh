@@ -31,5 +31,12 @@ CHECK $? "installing nginx"
 systemctl enable nginx 
 CHECK $? "enabling nginx"
 
+rm -rf /usr/share/nginx/html/*
+CHECK $? "Removing old frontend files"
+
+cp -r frontend/* /usr/share/nginx/html/
+CHECK $? "copying all frontend files"
+
 systemctl start nginx
 CHECK $? "starting the nginx"
+
