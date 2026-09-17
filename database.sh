@@ -29,3 +29,6 @@ fi
 
 systemctl enable mongod
 CHECK $? "Enable MongoDB"
+
+systemctl start mongod
+CHECK $? "Start MongoDB"
