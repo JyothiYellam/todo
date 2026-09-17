@@ -9,11 +9,33 @@ CHECK () {
   fi
 }
 
+dnf module disable nodejs -y
+CHECK $? "Disabling current nodejs"
+
+dnf module enable nodejs:20 -y
+CHECK $? "enabling nodejs"
+
+dnf install nodejs -y
+CHECK $? "Installing nodejs"
+
 node --version
-CHECK $? "checking nodejs installation"
+CHECK $? "chekcing node version"
 
 cd backend/
 CHECK $? "changed directory"
 
 npm install
 CHECK $? "checking whether dependencies installed or not"
+
+cp todo-backend.service /etc/systemd/system/todo-backend.service
+CHECK $? "copying the servicefile"
+
+systemctl daemon-reload
+CHECK $? "reload the service"
+
+systemctl enable todo-backend
+CHECK $? "enabling the serive"
+
+systemctl start todo-backend
+CHECK $? "start the service"
+
