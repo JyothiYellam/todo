@@ -1,4 +1,10 @@
 #!/bin/bash
+userid=$(id -u)
+
+if [ $userid -ne 0 ]; then
+    echo "run with root privilages"
+    exit 
+fi 
 
 CHECK () {
   if [ $1 -eq 0 ] ; then
