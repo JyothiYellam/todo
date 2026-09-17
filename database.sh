@@ -35,3 +35,6 @@ CHECK $? "Start MongoDB"
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 CHECK $? "Allowing remote connections"
+
+systemctl restart mongod
+CHECK $? "restarting mongodb"
