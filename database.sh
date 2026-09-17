@@ -26,4 +26,5 @@ else
     dnf install mongodb-org -y
     CHECK $? "installing mongodb" 
 fi 
-    
+
+systemctl enable mongod
