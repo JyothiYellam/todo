@@ -28,3 +28,8 @@ CHECK $? "enabling version"
 dnf install nginx -y
 CHECK $? "installing nginx"
 
+systemctl enable nginx 
+CHECK $? "enabling nginx"
+
+systemctl start nginx
+CHECK $? "starting the nginx"
