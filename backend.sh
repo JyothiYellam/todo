@@ -10,7 +10,7 @@ CHECK () {
   if [ $1 -eq 0 ] ; then
     echo "success ... $2"
   else
-    echo "failure"
+    echo "failure ... $2"
     exit 1
   fi
 }
