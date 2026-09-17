@@ -28,3 +28,4 @@ else
 fi 
 
 systemctl enable mongod
+CHECK $? "Enable MongoDB"
